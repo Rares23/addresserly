@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Addresserly</string>
+    <string name="distance">%1$s KM</string>
+    <string name="invalid_distance">Invalid distance</string>
+    <string name="unknown_address">Unknown address</string>
 </resources>

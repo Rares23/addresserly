@@ -2,6 +2,7 @@ package ro.crxapps.addresserly.core.di.application
 
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ro.crxapps.addresserly.locations.data.api.LocationsApiService

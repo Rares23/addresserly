@@ -7,22 +7,25 @@ import ro.crxapps.addresserly.core.di.application.*
 
 class AddresserlyApp : Application() {
 
-    lateinit var appComponent: AppComponent
+    private lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
 
         Realm.init(this)
-        initAppComponent()
     }
 
-    private fun initAppComponent() {
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .apiServicesModule(ApiServicesModule())
-            .repositoriesModule(RepositoriesModule())
-            .viewModelModule(ViewModelModule())
-            .build()
+    fun getAppComponent() : AppComponent{
+        if(!::appComponent.isInitialized) {
+            appComponent = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
+                .apiServicesModule(ApiServicesModule())
+                .repositoriesModule(RepositoriesModule())
+                .viewModelModule(ViewModelModule())
+                .build()
+        }
+
+        return appComponent
     }
 
 }

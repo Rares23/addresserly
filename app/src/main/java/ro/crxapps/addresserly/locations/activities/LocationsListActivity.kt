@@ -1,10 +1,12 @@
 package ro.crxapps.addresserly.locations.activities
 
+import android.location.Location
 import android.os.Bundle
 import android.widget.FrameLayout
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.activities.BaseActivity
 import ro.crxapps.addresserly.locations.fragments.LocationsListFragment
+import ro.crxapps.addresserly.locations.utils.GPSLocationProvider
 import javax.inject.Inject
 
 
@@ -16,12 +18,12 @@ class LocationsListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_locations_list)
-        getPresentationComponent().inject(this)
+        getActivityComponent().inject(this)
         setLocationsListFragment(savedInstanceState)
     }
 
     private fun setLocationsListFragment(savedInstanceState: Bundle?) {
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             val fragmentWrapper: FrameLayout = findViewById(R.id.fragment_wrapper)
             val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -30,4 +32,14 @@ class LocationsListActivity : BaseActivity() {
                 .commit()
         }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        locationsListFragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
 }
