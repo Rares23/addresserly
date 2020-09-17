@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.fragments.BaseFragment
@@ -30,6 +31,8 @@ class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocat
     lateinit var linearLayoutManager: LinearLayoutManager
     @Inject
     lateinit var gpsLocationProvider: GPSLocationProvider
+    @Inject
+    lateinit var snapHelper: LinearSnapHelper
 
     private lateinit var rootView: View
     private lateinit var locationsRecyclerView: RecyclerView
@@ -65,6 +68,7 @@ class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocat
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         locationsRecyclerView.layoutManager = linearLayoutManager
         locationsRecyclerView.adapter = locationsListAdapter
+        snapHelper.attachToRecyclerView(locationsRecyclerView)
     }
 
     private fun showLocationDetails(locationId: Long) {

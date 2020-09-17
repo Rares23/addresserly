@@ -3,6 +3,8 @@ package ro.crxapps.addresserly.core.di.presentation
 import android.app.Activity
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.Module
 import dagger.Provides
@@ -47,5 +49,11 @@ class ActivityModule(private val activity: Activity) {
     @Provides
     fun provideGPSLocationProvider(client: FusedLocationProviderClient) : GPSLocationProvider {
         return GPSLocationProvider(activity, client)
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideSnapHelper(): LinearSnapHelper {
+        return LinearSnapHelper()
     }
 }
