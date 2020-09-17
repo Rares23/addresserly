@@ -23,5 +23,7 @@
         <activity
             android:name=".locations.activities.LocationDetailsActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".locations.activities.CreateLocationActivity"
+            android:launchMode="singleTask"/>
     </application>
 </manifest>

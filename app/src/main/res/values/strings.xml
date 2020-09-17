@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Addresserly</string>
     <string name="details_screen">Address Details</string>
+    <string name="create_screen">Create location</string>
+    <string name="update_screen">Update location</string>
     <string name="distance">%1$s KM</string>
     <string name="invalid_distance">Invalid distance</string>
     <string name="unknown_address">Unknown address</string>
