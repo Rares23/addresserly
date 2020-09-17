@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
+import androidx.lifecycle.MutableLiveData
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.fragments.BaseFragment
 import ro.crxapps.addresserly.locations.data.models.AddressLocation
@@ -18,8 +17,7 @@ class LocationDetailsFragment : BaseFragment() {
     @Inject
     lateinit var locationDetailsViewModel: LocationDetailsViewModel
 
-    private var image: ImageView? = null // this is the header image from activity toolbar
-
+    val imageUrl: MutableLiveData<String?> = MutableLiveData()
     private lateinit var rootView: View
     private lateinit var label: TextView
     private lateinit var address: TextView
@@ -37,7 +35,6 @@ class LocationDetailsFragment : BaseFragment() {
         coordinates = rootView.findViewById(R.id.coordinates)
         distance = rootView.findViewById(R.id.distance)
         observeViewModelValues()
-
         val id: Long? = arguments?.getLong("id")
         id?.let {
             locationDetailsViewModel.loadLocation(it)
@@ -45,15 +42,18 @@ class LocationDetailsFragment : BaseFragment() {
         return rootView
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         getActivityComponent().inject(this)
     }
 
     private fun observeViewModelValues() {
-        locationDetailsViewModel.locationLiveData.observe(viewLifecycleOwner, { location ->
-            setLocationData(location)
-        })
+        activity?.let {
+            locationDetailsViewModel.locationLiveData.observe(it, { location ->
+                setLocationData(location)
+            })
+        }
     }
 
     private fun setLocationData(location: AddressLocation) {
@@ -71,17 +71,6 @@ class LocationDetailsFragment : BaseFragment() {
             getString(R.string.invalid_distance)
         }
 
-        image?.apply {
-            post {
-                Glide.with(this)
-                    .load(location.image)
-                    .error(R.drawable.noimage)
-                    .into(this)
-            }
-        }
-    }
-
-    fun setHeaderImage(image: ImageView?) {
-        this.image = image
+        imageUrl.postValue(location.image)
     }
 }

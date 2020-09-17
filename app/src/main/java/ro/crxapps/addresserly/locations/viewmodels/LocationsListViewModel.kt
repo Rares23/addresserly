@@ -16,17 +16,21 @@ class LocationsListViewModel @Inject constructor(
     private val locationsRepository: LocationsRepository,
     private val distanceCalculator: DistanceCalculator
 ) : ViewModel() {
-
     val loadingLocations: MutableLiveData<Boolean> = MutableLiveData()
     private var currentLocation: Location? = null
     private var loadLocationsJob: Job? = null
     private var currentLocationUpdateJob: Job? = null
-    fun loadLocations() {
-        loadingLocations.postValue(true)
-        loadLocationsJob = CoroutineScope(Dispatchers.IO).launch {
-            locationsRepository.fetchLocationsList()
-            updateAddressLocationsDistances()
-            loadingLocations.postValue(false)
+    private var firstLoad: Boolean = false
+
+    fun loadLocations(forceLoad: Boolean = false) {
+        if(forceLoad || !firstLoad) {
+            loadingLocations.postValue(true)
+            loadLocationsJob = CoroutineScope(Dispatchers.IO).launch {
+                firstLoad = true
+                locationsRepository.fetchLocationsList()
+                updateAddressLocationsDistances()
+                loadingLocations.postValue(false)
+            }
         }
     }
 

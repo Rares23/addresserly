@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.activities.BaseActivity
 import ro.crxapps.addresserly.locations.fragments.LocationActionsFragment
+import ro.crxapps.addresserly.locations.fragments.LocationDetailsFragment
 import javax.inject.Inject
 
 class LocationActionsActivity : BaseActivity() {
@@ -48,6 +49,9 @@ class LocationActionsActivity : BaseActivity() {
             fragmentTransaction
                 .add(fragmentWrapper.id, locationActionsFragment)
                 .commit()
+        } else {
+            locationActionsFragment =
+                supportFragmentManager.findFragmentById(R.id.fragment_wrapper) as LocationActionsFragment
         }
     }
 

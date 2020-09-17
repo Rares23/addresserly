@@ -5,11 +5,13 @@ import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.activities.BaseActivity
 import ro.crxapps.addresserly.locations.fragments.LocationDetailsFragment
 import javax.inject.Inject
+
 
 class LocationDetailsActivity : BaseActivity() {
 
@@ -17,7 +19,7 @@ class LocationDetailsActivity : BaseActivity() {
     lateinit var locationDetailsFragment: LocationDetailsFragment
 
     private lateinit var collapsingToolbarLayout: CollapsingToolbarLayout
-    private var image: ImageView? = null
+    private lateinit var image: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +38,19 @@ class LocationDetailsActivity : BaseActivity() {
             fragmentTransaction
                 .add(fragmentWrapper.id, locationDetailsFragment)
                 .commit()
+        } else {
+            locationDetailsFragment =
+                supportFragmentManager.findFragmentById(R.id.fragment_wrapper) as LocationDetailsFragment
         }
-        locationDetailsFragment.setHeaderImage(image)
+
+        locationDetailsFragment.imageUrl.observe(this, {
+            image.post {
+                Glide.with(this)
+                    .load(it)
+                    .error(R.drawable.noimage)
+                    .into(image)
+            }
+        })
     }
 
     private fun initToolbar() {
@@ -54,7 +67,7 @@ class LocationDetailsActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 true

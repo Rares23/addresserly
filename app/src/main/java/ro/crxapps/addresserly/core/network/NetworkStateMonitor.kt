@@ -5,10 +5,15 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
+import android.os.Handler
+import android.os.Looper
 import javax.inject.Inject
 
 
-class NetworkStateMonitor @Inject constructor(private val application: Application) {
+class NetworkStateMonitor @Inject constructor(
+    private val application: Application,
+    private val handler: Handler
+) {
 
     companion object {
         var isNetworkConnected: Boolean = false
@@ -23,12 +28,16 @@ class NetworkStateMonitor @Inject constructor(private val application: Applicati
             connectivityManager.registerDefaultNetworkCallback(object : NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     isNetworkConnected = true // Global Static Variable
-                    updateConnectionStateListener(isNetworkConnected)
+                    handler.post {
+                        updateConnectionStateListener(isNetworkConnected)
+                    }
                 }
 
                 override fun onLost(network: Network) {
                     isNetworkConnected = false // Global Static Variable
-                    updateConnectionStateListener(isNetworkConnected)
+                    handler.post {
+                        updateConnectionStateListener(isNetworkConnected)
+                    }
                 }
             }
             )

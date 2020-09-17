@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface LocationsApiService {
     @GET("/mylocations")
-    suspend fun listLocation(): Response<LocationsApiResponse>
+    suspend fun listLocation(): LocationsApiResponse
 }

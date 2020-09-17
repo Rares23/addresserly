@@ -15,4 +15,15 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_map_marker_plus" />
+
+    <TextView
+        android:id="@+id/internet_connection_problem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorYellow"
+        android:text="@string/internet_connection_problem"
+        android:textColor="@color/colorBlack"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:layout_gravity="top"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
