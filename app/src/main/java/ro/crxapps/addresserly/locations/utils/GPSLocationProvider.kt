@@ -28,7 +28,7 @@ class GPSLocationProvider @Inject constructor(
         )
     }
 
-    fun loadCurrentGPSLocation(onLocationLoadListener: OnCurrentLocationLoadListener) {
+    fun loadCurrentGPSLocation(onLocationLoadListener: OnCurrentLocationLoadListener?) {
         if (ActivityCompat.checkSelfPermission(
                 activity,
                 ACCESS_FINE_LOCATION
@@ -36,7 +36,7 @@ class GPSLocationProvider @Inject constructor(
         ) {
             client.lastLocation
                 .addOnSuccessListener {
-                    onLocationLoadListener.getCurrentLocation(it)
+                    onLocationLoadListener?.getCurrentLocation(it)
                 }
         } else {
             if (!permissionRequested) {
@@ -46,6 +46,6 @@ class GPSLocationProvider @Inject constructor(
     }
 
     interface OnCurrentLocationLoadListener {
-        fun getCurrentLocation(currentLocation: Location)
+        fun getCurrentLocation(currentLocation: Location?)
     }
 }

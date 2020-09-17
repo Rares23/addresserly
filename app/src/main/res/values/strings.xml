@@ -12,4 +12,6 @@
     <string name="address">Address</string>
     <string name="coordinates_label">Coordinates</string>
     <string name="coordinates">%1$s Lat %2$s Lng</string>
+    <string name="empty_locations_list">You have no locations</string>
+    <string name="internet_connection_problem">Internet connection problem!</string>
 </resources>

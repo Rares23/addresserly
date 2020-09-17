@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.Module
 import dagger.Provides
 import ro.crxapps.addresserly.core.data.uitls.UniqIdGenerator
+import ro.crxapps.addresserly.core.network.NetworkStateMonitor
 import ro.crxapps.addresserly.locations.utils.DistanceCalculator
 import javax.inject.Singleton
 
@@ -25,5 +26,11 @@ class AppModule(private val application: Application) {
     @Provides
     fun provideUniqIdGenerator(): UniqIdGenerator {
         return UniqIdGenerator()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNetworkStateMonitor(application: Application): NetworkStateMonitor {
+        return NetworkStateMonitor(application)
     }
 }

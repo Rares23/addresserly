@@ -1,6 +1,8 @@
 package ro.crxapps.addresserly.locations.activities
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -56,5 +58,4 @@ class LocationsListActivity : BaseActivity() {
         val intent: Intent = Intent(this, CreateLocationActivity::class.java)
         startActivity(intent)
     }
-
 }

@@ -16,5 +16,18 @@ open class AddressLocation(
 
     @Ignore
     var distance: Double? = null
-
-) : RealmObject()
+) : RealmObject() {
+    companion object {
+        fun copy(location: AddressLocation): AddressLocation {
+            return AddressLocation(
+                location.id,
+                location.lat,
+                location.lng,
+                location.label,
+                location.address,
+                location.image,
+                location.distance
+            )
+        }
+    }
+}

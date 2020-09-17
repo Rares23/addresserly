@@ -17,13 +17,16 @@ class LocationsListViewModel @Inject constructor(
     private val distanceCalculator: DistanceCalculator
 ) : ViewModel() {
 
+    val loadingLocations: MutableLiveData<Boolean> = MutableLiveData()
     private var currentLocation: Location? = null
     private var loadLocationsJob: Job? = null
     private var currentLocationUpdateJob: Job? = null
     fun loadLocations() {
-        loadLocationsJob = CoroutineScope(Dispatchers.Main).launch {
+        loadingLocations.postValue(true)
+        loadLocationsJob = CoroutineScope(Dispatchers.IO).launch {
             locationsRepository.fetchLocationsList()
             updateAddressLocationsDistances()
+            loadingLocations.postValue(false)
         }
     }
 
@@ -31,7 +34,7 @@ class LocationsListViewModel @Inject constructor(
         return locationsRepository.getLocationsLiveData()
     }
 
-    fun setCurrentLocation(location: Location) {
+    fun setCurrentLocation(location: Location?) {
         currentLocation = location
         updateAddressLocationsDistances()
     }
