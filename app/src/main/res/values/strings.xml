@@ -3,4 +3,8 @@
     <string name="distance">%1$s KM</string>
     <string name="invalid_distance">Invalid distance</string>
     <string name="unknown_address">Unknown address</string>
+    <string name="distance_label">Distance</string>
+    <string name="address">Address</string>
+    <string name="coordinates_label">Coordinates</string>
+    <string name="coordinates">%1$s Lat %2$s Lng</string>
 </resources>

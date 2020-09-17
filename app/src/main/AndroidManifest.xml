@@ -13,11 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:fullBackupContent="false">
-        <activity android:name=".locations.activities.LocationsListActivity">
+        <activity android:name=".locations.activities.LocationsListActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".locations.activities.LocationDetailsActivity"
+            android:launchMode="singleTask"/>
     </application>
 </manifest>

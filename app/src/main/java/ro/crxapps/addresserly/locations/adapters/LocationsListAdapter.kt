@@ -2,6 +2,7 @@ package ro.crxapps.addresserly.locations.adapters
 
 import android.content.Context
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import ro.crxapps.addresserly.locations.data.models.AddressLocation
@@ -12,6 +13,7 @@ class LocationsListAdapter @Inject constructor(private val context: Context) :
     RecyclerView.Adapter<LocationsListAdapter.LocationViewHolder>() {
 
     private val locations: ArrayList<AddressLocation> = ArrayList()
+    private var clickListener: OnLocationClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view: LocationItemView = LocationItemView(context)
@@ -24,7 +26,11 @@ class LocationsListAdapter @Inject constructor(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
-        (holder.itemView as LocationItemView).setContent(locations[position])
+        val location: AddressLocation = locations[position]
+        (holder.itemView as LocationItemView).setContent(location)
+        (holder.itemView).card.setOnClickListener {
+            clickListener?.onLocationClick(location)
+        }
     }
 
     override fun getItemCount(): Int = locations.size
@@ -37,5 +43,12 @@ class LocationsListAdapter @Inject constructor(private val context: Context) :
         }
     }
 
+    fun setOnLocationClickListener(listener: OnLocationClickListener) {
+        clickListener = listener
+    }
+
     class LocationViewHolder(view: LocationItemView) : RecyclerView.ViewHolder(view)
+    interface OnLocationClickListener {
+        fun onLocationClick(location: AddressLocation)
+    }
 }

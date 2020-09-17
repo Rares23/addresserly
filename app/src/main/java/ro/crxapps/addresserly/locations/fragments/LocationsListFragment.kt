@@ -1,6 +1,7 @@
 package ro.crxapps.addresserly.locations.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.fragments.BaseFragment
-import ro.crxapps.addresserly.core.fragments.FragmentTags
+import ro.crxapps.addresserly.locations.activities.LocationDetailsActivity
 import ro.crxapps.addresserly.locations.adapters.LocationsListAdapter
+import ro.crxapps.addresserly.locations.data.models.AddressLocation
 import ro.crxapps.addresserly.locations.utils.GPSLocationProvider
+import ro.crxapps.addresserly.locations.viewmodels.LocationDetailsViewModel
 import ro.crxapps.addresserly.locations.viewmodels.LocationsListViewModel
 import javax.inject.Inject
 
 
 class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocationLoadListener {
-    companion object {
-        const val TAG: String = FragmentTags.LOCATIONS_LIST
-    }
 
     @Inject
     lateinit var locationsListViewModel: LocationsListViewModel
@@ -55,9 +55,24 @@ class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocat
 
     private fun initRecyclerView() {
         locationsRecyclerView = rootView.findViewById(R.id.locations_list)
+        locationsListAdapter.setOnLocationClickListener(object: LocationsListAdapter.OnLocationClickListener {
+            override fun onLocationClick(location: AddressLocation) {
+                location.id?.let {
+                    showLocationDetails(it)
+                }
+            }
+        })
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         locationsRecyclerView.layoutManager = linearLayoutManager
         locationsRecyclerView.adapter = locationsListAdapter
+    }
+
+    private fun showLocationDetails(locationId: Long) {
+        val intent: Intent = Intent(context, LocationDetailsActivity::class.java)
+        val bundle: Bundle = Bundle()
+        bundle.putLong("id", locationId)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     private fun observeViewModelValues() {

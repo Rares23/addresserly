@@ -29,19 +29,17 @@ class LocationsRepository @Inject constructor(
             val response: Response<LocationsApiResponse> = locationApiService.listLocation()
             if (response.isSuccessful && response.body()?.status == "ok") {
                 response.body()?.locations?.let {
-                    for (location in it) {
-                        if (location.id == null) {
-                            val firstValue: Double = (location.lat ?: -1).toDouble()
-                            val secondValue: Double = (location.lng ?: -1).toDouble()
-                            if (firstValue != (-1).toDouble() && secondValue != (-1).toDouble()) {
-                                location.id = uniqIdGenerator.provideUniqIdFromTwoValues(
-                                    firstValue,
-                                    secondValue
-                                )
-                            }
+                    for(i in it.indices) {
+                        if (it[i].id == null) {
+                            it[i].id = uniqIdGenerator.provideUniqIdFromTwoValues()
                         }
                     }
                     cachedLocations.addAll(it)
+
+                    val testEmptyAddress: AddressLocation = AddressLocation()
+                    testEmptyAddress.id = uniqIdGenerator.provideUniqIdFromTwoValues()
+                    cachedLocations.add(testEmptyAddress)
+
                     locationsLiveData.postValue(cachedLocations)
                 }
             }
@@ -61,5 +59,15 @@ class LocationsRepository @Inject constructor(
 
             locationsLiveData.postValue(cachedLocations)
         }
+    }
+
+    suspend fun getLocationById(id: Long): AddressLocation? {
+        cachedLocations.forEach {
+            if (it.id == id) {
+                return it
+            }
+        }
+
+        return null
     }
 }

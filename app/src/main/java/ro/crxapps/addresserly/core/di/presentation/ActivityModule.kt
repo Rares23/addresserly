@@ -7,6 +7,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.Module
 import dagger.Provides
 import ro.crxapps.addresserly.locations.adapters.LocationsListAdapter
+import ro.crxapps.addresserly.locations.fragments.LocationDetailsFragment
 import ro.crxapps.addresserly.locations.fragments.LocationsListFragment
 import ro.crxapps.addresserly.locations.utils.GPSLocationProvider
 
@@ -16,6 +17,12 @@ class ActivityModule(private val activity: Activity) {
     @Provides
     fun provideLocationsListFragment() : LocationsListFragment {
         return LocationsListFragment()
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideLocationDetailsFragment() : LocationDetailsFragment {
+        return LocationDetailsFragment()
     }
 
     @ActivityScope
@@ -41,7 +48,4 @@ class ActivityModule(private val activity: Activity) {
     fun provideGPSLocationProvider(client: FusedLocationProviderClient) : GPSLocationProvider {
         return GPSLocationProvider(activity, client)
     }
-
-
-
 }

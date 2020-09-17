@@ -5,12 +5,14 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.locations.data.models.AddressLocation
 
 class LocationItemView : FrameLayout {
 
+    var card: CardView
     private val address: TextView
     private val distance: TextView
     private val image: ImageView
@@ -25,6 +27,7 @@ class LocationItemView : FrameLayout {
 
     init {
         inflate(context, R.layout.location_item_view, this)
+        card = findViewById(R.id.card)
         address = findViewById(R.id.address)
         distance = findViewById(R.id.distance)
         image = findViewById(R.id.image)

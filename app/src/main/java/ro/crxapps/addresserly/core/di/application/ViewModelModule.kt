@@ -7,8 +7,10 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import ro.crxapps.addresserly.locations.data.repositories.LocationsRepository
 import ro.crxapps.addresserly.locations.utils.DistanceCalculator
+import ro.crxapps.addresserly.locations.viewmodels.LocationDetailsViewModel
 import ro.crxapps.addresserly.locations.viewmodels.LocationsListViewModel
 import javax.inject.Provider
+import javax.inject.Singleton
 import kotlin.reflect.KClass
 
 
@@ -24,10 +26,19 @@ class ViewModelModule() {
         return ViewModelFactory(providerMap)
     }
 
+    @Singleton
     @Provides
     @IntoMap
     @ViewModelKey(LocationsListViewModel::class)
-    fun locationListViewModel(locationsRepository: LocationsRepository, distanceCalculator: DistanceCalculator): ViewModel? {
+    fun locationsListViewModel(locationsRepository: LocationsRepository, distanceCalculator: DistanceCalculator): LocationsListViewModel {
         return LocationsListViewModel(locationsRepository, distanceCalculator)
+    }
+
+    @Singleton
+    @Provides
+    @IntoMap
+    @ViewModelKey(LocationDetailsViewModel::class)
+    fun locationDetailsViewModel(locationsRepository: LocationsRepository): LocationDetailsViewModel {
+        return LocationDetailsViewModel(locationsRepository)
     }
 }

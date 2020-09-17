@@ -13,8 +13,8 @@ import ro.crxapps.addresserly.locations.utils.DistanceCalculator
 import javax.inject.Inject
 
 class LocationsListViewModel @Inject constructor(
-    var locationsRepository: LocationsRepository,
-    var distanceCalculator: DistanceCalculator
+    private val locationsRepository: LocationsRepository,
+    private val distanceCalculator: DistanceCalculator
 ) : ViewModel() {
 
     private var currentLocation: Location? = null
@@ -41,19 +41,22 @@ class LocationsListViewModel @Inject constructor(
             currentLocationUpdateJob = CoroutineScope(Dispatchers.IO).launch {
                 val distanceValues: HashMap<Long, Double> = HashMap()
                 locationsRepository.getLocations().forEach {addressLocation->
-                    val locationLat: Double = (addressLocation.lat ?: -1).toDouble()
-                    val locationLng: Double = (addressLocation.lng ?: -1).toDouble()
+                    val locationLat: Double = (addressLocation.lat ?: .0).toDouble()
+                    val locationLng: Double = (addressLocation.lng ?: .0).toDouble()
                     val currentLocationLat: Double = it.latitude
                     val currentLocationLng: Double = it.longitude
-                    val distance: Double = distanceCalculator.calculateDistance(
-                        locationLat,
-                        locationLng,
-                        currentLocationLat,
-                        currentLocationLng
-                    )
 
-                    addressLocation.id?.let { id ->
-                        distanceValues[id] = distance
+                    if(locationLat != .0 && locationLng != .0) {
+                        val distance: Double = distanceCalculator.calculateDistance(
+                            locationLat,
+                            locationLng,
+                            currentLocationLat,
+                            currentLocationLng
+                        )
+
+                        addressLocation.id?.let { id ->
+                            distanceValues[id] = distance
+                        }
                     }
                 }
 

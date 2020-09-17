@@ -1,12 +1,10 @@
 package ro.crxapps.addresserly.locations.activities
 
-import android.location.Location
 import android.os.Bundle
 import android.widget.FrameLayout
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.activities.BaseActivity
 import ro.crxapps.addresserly.locations.fragments.LocationsListFragment
-import ro.crxapps.addresserly.locations.utils.GPSLocationProvider
 import javax.inject.Inject
 
 
