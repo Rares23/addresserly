@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import ro.crxapps.addresserly.R
+import ro.crxapps.addresserly.core.activities.ActivityStarter
 import ro.crxapps.addresserly.core.fragments.BaseFragment
 import ro.crxapps.addresserly.core.network.NetworkStateMonitor
 import ro.crxapps.addresserly.locations.activities.LocationDetailsActivity
@@ -39,6 +40,9 @@ class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocat
     lateinit var snapHelper: LinearSnapHelper
     @Inject
     lateinit var networkStateMonitor: NetworkStateMonitor
+
+    @Inject
+    lateinit var activityStarter: ActivityStarter
 
     private lateinit var rootView: View
     private lateinit var locationsRecyclerView: RecyclerView
@@ -81,22 +85,18 @@ class LocationsListFragment : BaseFragment(), GPSLocationProvider.OnCurrentLocat
         locationsListAdapter.setOnLocationClickListener(object: LocationsListAdapter.OnLocationClickListener {
             override fun onLocationClick(location: AddressLocation) {
                 location.id?.let {
-                    showLocationDetails(it)
+                    activityStarter.openLocationDetailsActivity(it)
                 }
+            }
+
+            override fun onLocationEditClick(locationId: Long) {
+                activityStarter.openLocationActionsActivity(locationId)
             }
         })
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         locationsRecyclerView.layoutManager = linearLayoutManager
         locationsRecyclerView.adapter = locationsListAdapter
         snapHelper.attachToRecyclerView(locationsRecyclerView)
-    }
-
-    private fun showLocationDetails(locationId: Long) {
-        val intent: Intent = Intent(context, LocationDetailsActivity::class.java)
-        val bundle: Bundle = Bundle()
-        bundle.putLong("id", locationId)
-        intent.putExtras(bundle)
-        startActivity(intent)
     }
 
     private fun observeViewModelValues() {

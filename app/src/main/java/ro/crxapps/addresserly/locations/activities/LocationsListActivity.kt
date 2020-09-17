@@ -1,12 +1,11 @@
 package ro.crxapps.addresserly.locations.activities
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ro.crxapps.addresserly.R
+import ro.crxapps.addresserly.core.activities.ActivityStarter
 import ro.crxapps.addresserly.core.activities.BaseActivity
 import ro.crxapps.addresserly.locations.fragments.LocationsListFragment
 import javax.inject.Inject
@@ -16,6 +15,9 @@ class LocationsListActivity : BaseActivity() {
 
     @Inject
     lateinit var locationsListFragment: LocationsListFragment
+
+    @Inject
+    lateinit var activityStarter: ActivityStarter
 
     private lateinit var newLocationFab: FloatingActionButton
 
@@ -50,12 +52,7 @@ class LocationsListActivity : BaseActivity() {
     private fun setViews() {
         newLocationFab = findViewById(R.id.new_location_fab)
         newLocationFab.setOnClickListener {
-            openCreateLocationActivity()
+            activityStarter.openLocationActionsActivity()
         }
-    }
-
-    private fun openCreateLocationActivity() {
-        val intent: Intent = Intent(this, CreateLocationActivity::class.java)
-        startActivity(intent)
     }
 }

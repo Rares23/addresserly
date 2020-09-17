@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.SnapHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.Module
 import dagger.Provides
+import ro.crxapps.addresserly.core.activities.ActivityStarter
 import ro.crxapps.addresserly.locations.adapters.LocationsListAdapter
 import ro.crxapps.addresserly.locations.fragments.LocationActionsFragment
 import ro.crxapps.addresserly.locations.fragments.LocationDetailsFragment
@@ -62,5 +63,11 @@ class ActivityModule(private val activity: Activity) {
     @Provides
     fun provideSnapHelper(): LinearSnapHelper {
         return LinearSnapHelper()
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideActivityStarter(): ActivityStarter {
+        return ActivityStarter(activity)
     }
 }

@@ -2,6 +2,7 @@ package ro.crxapps.addresserly.locations.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ class LocationItemView : FrameLayout {
     private val address: TextView
     private val distance: TextView
     private val image: ImageView
+    val edit: ImageView
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -31,6 +33,7 @@ class LocationItemView : FrameLayout {
         address = findViewById(R.id.address)
         distance = findViewById(R.id.distance)
         image = findViewById(R.id.image)
+        edit = findViewById(R.id.edit)
     }
 
     fun setContent(location: AddressLocation) {
@@ -41,6 +44,13 @@ class LocationItemView : FrameLayout {
         } else {
             context.getString(R.string.invalid_distance)
         }
+
+        if(location.id != null) {
+            edit.visibility = View.VISIBLE
+        } else {
+            edit.visibility = View.GONE
+        }
+
         image.post{
             Glide.with(context)
                 .load(location.image)

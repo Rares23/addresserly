@@ -31,6 +31,11 @@ class LocationsListAdapter @Inject constructor(private val context: Context) :
         (holder.itemView).card.setOnClickListener {
             clickListener?.onLocationClick(location)
         }
+        (holder.itemView).edit.setOnClickListener {
+            location.id?.let {
+                clickListener?.onLocationEditClick(it)
+            }
+        }
     }
 
     override fun getItemCount(): Int = locations.size
@@ -50,5 +55,6 @@ class LocationsListAdapter @Inject constructor(private val context: Context) :
     class LocationViewHolder(view: LocationItemView) : RecyclerView.ViewHolder(view)
     interface OnLocationClickListener {
         fun onLocationClick(location: AddressLocation)
+        fun onLocationEditClick(locationId: Long)
     }
 }
