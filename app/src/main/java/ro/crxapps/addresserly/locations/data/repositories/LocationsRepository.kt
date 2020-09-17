@@ -31,13 +31,13 @@ class LocationsRepository @Inject constructor(
                 response.body()?.locations?.let {
                     for(i in it.indices) {
                         if (it[i].id == null) {
-                            it[i].id = uniqIdGenerator.provideUniqIdFromTwoValues()
+                            it[i].id = uniqIdGenerator.provideUniqIdForAddressLocation(it[i])
                         }
                     }
                     cachedLocations.addAll(it)
 
                     val testEmptyAddress: AddressLocation = AddressLocation()
-                    testEmptyAddress.id = uniqIdGenerator.provideUniqIdFromTwoValues()
+                    testEmptyAddress.id = uniqIdGenerator.provideUniqIdForAddressLocation(testEmptyAddress)
                     cachedLocations.add(testEmptyAddress)
 
                     locationsLiveData.postValue(cachedLocations)
