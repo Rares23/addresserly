@@ -1,10 +1,23 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Toolbar" parent="AppTheme">
+        <item name="titleTextColor">@color/colorWhite</item>
+        <item name="iconTint">@color/colorWhite</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+    </style>
+    <style name="ExpandedTitleText" parent="AppTheme">
+        <item name="android:textColor">@color/colorTransparent</item>
+    </style>
+    <style name="CollapsedTitleText" parent="AppTheme">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 </resources>

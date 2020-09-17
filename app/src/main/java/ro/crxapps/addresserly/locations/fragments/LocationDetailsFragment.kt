@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import ro.crxapps.addresserly.R
 import ro.crxapps.addresserly.core.fragments.BaseFragment
 import ro.crxapps.addresserly.locations.data.models.AddressLocation
 import ro.crxapps.addresserly.locations.viewmodels.LocationDetailsViewModel
 import javax.inject.Inject
 
-class LocationDetailsFragment: BaseFragment() {
+class LocationDetailsFragment : BaseFragment() {
     @Inject
     lateinit var locationDetailsViewModel: LocationDetailsViewModel
+
+    private var image: ImageView? = null // this is the header image from activity toolbar
 
     private lateinit var rootView: View
     private lateinit var label: TextView
@@ -53,9 +57,31 @@ class LocationDetailsFragment: BaseFragment() {
     }
 
     private fun setLocationData(location: AddressLocation) {
-        label.text = location.label
-        address.text = location.address
-        coordinates.text = getString(R.string.coordinates, location.lat?.toString(), location.lng?.toString())
-        distance.text = getString(R.string.distance, location.distance?.toInt().toString())
+        label.text = location.label ?: getString(R.string.empty_label)
+        address.text = location.address ?: getString(R.string.unknown_address)
+        coordinates.text = if (location.lat == null || location.lng == null) {
+            getString(R.string.no_coordinates)
+        } else {
+            getString(R.string.coordinates, location.lat?.toString(), location.lng?.toString())
+        }
+        val locationDistance: Double? = location.distance
+        distance.text = if (locationDistance != null) {
+            getString(R.string.distance, locationDistance.toInt().toString())
+        } else {
+            getString(R.string.invalid_distance)
+        }
+
+        image?.apply {
+            post {
+                Glide.with(this)
+                    .load(location.image)
+                    .error(R.drawable.noimage)
+                    .into(this)
+            }
+        }
+    }
+
+    fun setHeaderImage(image: ImageView?) {
+        this.image = image
     }
 }

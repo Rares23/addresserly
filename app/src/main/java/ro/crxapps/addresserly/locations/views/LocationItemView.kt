@@ -35,9 +35,9 @@ class LocationItemView : FrameLayout {
 
     fun setContent(location: AddressLocation) {
         address.text = location.address ?: context.getString(R.string.unknown_address)
-        val distanceKM: Int? = location.distance?.toInt()
-        distance.text = if(distanceKM != null) {
-            context.getString(R.string.distance, distanceKM.toString())
+        val locationDistance: Double? = location.distance
+        distance.text = if(locationDistance != null) {
+            context.getString(R.string.distance, locationDistance.toInt().toString())
         } else {
             context.getString(R.string.invalid_distance)
         }
